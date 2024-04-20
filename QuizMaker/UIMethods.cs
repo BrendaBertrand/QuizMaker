@@ -65,7 +65,10 @@ public class UIMethods
             {
                 isCorrectAnswer = false;
             }
-
+            if (addAnswerChoice == Constants.ADD_CORRECT_ANSWER_CHOICE)
+            {
+                isCorrectAnswer = true;
+            }
         } while (addAnswerChoice!= Constants.STOP_ADDING_ANSWER_CHOICE);
 
         return question;

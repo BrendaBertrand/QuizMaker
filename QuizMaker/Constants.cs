@@ -15,6 +15,8 @@ public class Constants
     public const string STOP_ADDING_ANSWER_TEXT = "Stop adding answer";
 
     public const int MIN_ANSWER_COUNT = 4;
+
+    public const string PATH_XML = @"../../../QuestionsList.xml";
     
     public static Dictionary<char, string> GLOBAL_MENU_CHOICES = new Dictionary<char, string>()
     {
