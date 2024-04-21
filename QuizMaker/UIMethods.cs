@@ -29,7 +29,7 @@ public class UIMethods
         do
         {
             DisplayUI("What do you want to do ?");
-            foreach (var key in Constants.GLOBAL_MENU_CHOICES.Keys)
+            foreach (char key in Constants.GLOBAL_MENU_CHOICES.Keys)
             {
                 DisplayUI($"{key} - {Constants.GLOBAL_MENU_CHOICES[key]}");
             }
@@ -57,11 +57,16 @@ public class UIMethods
         question.Question = GetString();
         bool isCorrectAnswer = true;
         char addAnswerChoice;
+        bool isGameOn = false;
         do
         {
             ClearUI();
-            QuestionPreview(question);
+            QuestionPreview(question, isGameOn);
             AddGenericAnswer(isCorrectAnswer, question);
+            if (question.AnswersList.Count == Constants.MAX_ANSWER_COUNT)
+            {
+                break;
+            }
             addAnswerChoice = KeepEncodingAnswer(isCorrectAnswer, question);
             if (addAnswerChoice == Constants.ADD_FALSE_ANSWER_CHOICE)
             {
@@ -71,7 +76,7 @@ public class UIMethods
             {
                 isCorrectAnswer = true;
             }
-        } while (addAnswerChoice!= Constants.STOP_ADDING_ANSWER_CHOICE);
+        } while (addAnswerChoice!= Constants.STOP_ADDING_ANSWER_CHOICE );
 
         return question;
     }
@@ -124,13 +129,32 @@ public class UIMethods
         return answerMenuChoice;
     }
 
-    public static void QuestionPreview(QuestionAndAnswers question)
+    public static void QuestionPreview(QuestionAndAnswers question,bool isGameOn =true)
     {
         DisplayUI($"Question : \n{question.Question}");
         DisplayUI($"Answers :");
         for (int i = 0; i < question.AnswersList.Count; i++)
         {
-            DisplayUI($"{question.AnswersList[i]} {(question.CorrectAnswersIndex.Contains(i) ? "(correct)" : "")} ");
+            DisplayUI($"{( isGameOn ? $"{i.ToString()} - " : "" )}{question.AnswersList[i]} {(question.CorrectAnswersIndex.Contains(i) && !isGameOn ? "(correct)" : "")} ");
         }
+    }
+
+    public static int AskQuestionGetAnswer(QuestionAndAnswers question)
+    {
+       
+        do
+        {
+            QuestionPreview(question);
+            DisplayUI("What's your answer ?");
+            bool isParseSuccess = Int32.TryParse(UIMethods.GetChar().ToString(), out int answer);
+            if (!isParseSuccess || answer < 0 || answer >= question.AnswersList.Count)
+            {
+                ClearUI();
+                DisplayUI("Your selection is not correct.\n");
+                continue;
+            }
+            return answer;
+        } while (true);
+        
     }
 }
