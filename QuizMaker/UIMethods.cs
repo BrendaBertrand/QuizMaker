@@ -59,6 +59,8 @@ public class UIMethods
         char addAnswerChoice;
         do
         {
+            ClearUI();
+            QuestionPreview(question);
             AddGenericAnswer(isCorrectAnswer, question);
             addAnswerChoice = KeepEncodingAnswer(isCorrectAnswer, question);
             if (addAnswerChoice == Constants.ADD_FALSE_ANSWER_CHOICE)
@@ -120,5 +122,15 @@ public class UIMethods
         } while (true);
 
         return answerMenuChoice;
+    }
+
+    public static void QuestionPreview(QuestionAndAnswers question)
+    {
+        DisplayUI($"Question : \n{question.Question}");
+        DisplayUI($"Answers :");
+        for (int i = 0; i < question.AnswersList.Count; i++)
+        {
+            DisplayUI($"{question.AnswersList[i]} {(question.CorrectAnswersIndex.Contains(i) ? "(correct)" : "")} ");
+        }
     }
 }
