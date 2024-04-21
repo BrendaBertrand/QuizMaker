@@ -34,4 +34,16 @@ public class LogicMethods
         UIMethods.DisplayUI($"Your score is {score}/{numberQuestionsAsked}.\n");
         return score;
     }
+
+    public static bool CheckAnswersQuantity(string rawAnwsers, out List<string> answersList)
+    {
+        answersList = rawAnwsers.Split(Constants.SEPARATOR, StringSplitOptions.TrimEntries).ToList();
+        if (answersList.Count<Constants.MIN_ANSWER_COUNT || answersList.Count>Constants.MAX_ANSWER_COUNT )
+        {
+            UIMethods.DisplayUI("The amount of answers is not correct\n");
+            return false;
+        }
+
+        return true;
+    }
 }

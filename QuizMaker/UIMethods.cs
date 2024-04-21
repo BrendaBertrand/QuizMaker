@@ -48,100 +48,91 @@ public class UIMethods
 
         return userMenuChoice;
     }
-    
-    
+
+
     public static QuestionAndAnswers AddQuestion()
     {
         QuestionAndAnswers question = new QuestionAndAnswers();
         DisplayUI("Please enter your question :");
         question.Question = GetString();
-        bool isCorrectAnswer = true;
-        char addAnswerChoice;
-        bool isGameOn = false;
+        bool isAnswerQuantityOk;
+        List<string> answersList;
         do
         {
-            ClearUI();
-            QuestionPreview(question, isGameOn);
-            AddGenericAnswer(isCorrectAnswer, question);
-            if (question.AnswersList.Count == Constants.MAX_ANSWER_COUNT)
-            {
-                break;
-            }
-            addAnswerChoice = KeepEncodingAnswer(isCorrectAnswer, question);
-            if (addAnswerChoice == Constants.ADD_FALSE_ANSWER_CHOICE)
-            {
-                isCorrectAnswer = false;
-            }
-            if (addAnswerChoice == Constants.ADD_CORRECT_ANSWER_CHOICE)
-            {
-                isCorrectAnswer = true;
-            }
-        } while (addAnswerChoice!= Constants.STOP_ADDING_ANSWER_CHOICE );
+            DisplayUI($"Please type the answers separated by \"{Constants.SEPARATOR}\".");
+            DisplayUI(
+                $"There should be minimum {Constants.MIN_ANSWER_COUNT} answers and maximum {Constants.MAX_ANSWER_COUNT}.");
+            string rawAnswers = GetString();
+            isAnswerQuantityOk = LogicMethods.CheckAnswersQuantity(rawAnswers, out answersList);
+        } while (!isAnswerQuantityOk);
+
+        question.AnswersList = answersList;
+        question = ChooseCorrectAnswer(question);
 
         return question;
     }
 
-    public static QuestionAndAnswers AddGenericAnswer(bool isCorrect, QuestionAndAnswers question)
+    public static QuestionAndAnswers ChooseCorrectAnswer(QuestionAndAnswers question)
     {
-        DisplayUI($"\nPlease enter {(isCorrect ? "a correct" : "an")} answer :");
-        string answer = GetString();
-        if (isCorrect)
-        {
-            question.AddCorrectAnswer(answer);
-        }
-        else
-        {
-            question.AddAnswer(answer);
-        }
-
-        return question;
-    }
-
-    public static char KeepEncodingAnswer(bool isCorrect, QuestionAndAnswers question)
-    {
-        char answerMenuChoice;
+        bool isAnswerIndexCorrect;
+        ClearUI();
         do
         {
-            DisplayUI($"\nDo you want to add another {(isCorrect ? "correct" : "")} answer ?");
-            foreach (var key in Constants.MENU_ADD_ANSWER_CHOICES.Keys)
-            {
-                if (key == Constants.STOP_ADDING_ANSWER_CHOICE &&
-                    question.AnswersList.Count < Constants.MIN_ANSWER_COUNT)
-                {
-                    continue;
-                }
-
-                DisplayUI($"{key} - {Constants.MENU_ADD_ANSWER_CHOICES[key]}");
-            }
-
-            answerMenuChoice = GetChar();
-            if (!Constants.MENU_ADD_ANSWER_CHOICES.ContainsKey(answerMenuChoice))
+            QuestionPreview(question);
+            DisplayUI($"\nType the correct answer(s) index(es) separated by a {Constants.SEPARATOR}.");
+            string rawCorrectAnswerIndex = GetString();
+            question = CheckCorrectAnswerIndex(rawCorrectAnswerIndex, question, out isAnswerIndexCorrect);
+            if (!isAnswerIndexCorrect)
             {
                 ClearUI();
-                DisplayUI($"{answerMenuChoice} is not a correct selection.\n");
+                DisplayUI("Index(es) are not correct. Please try again\n");
             }
-            else
-            {
-                break;
-            }
-        } while (true);
+        } while (!isAnswerIndexCorrect);
 
-        return answerMenuChoice;
+        return question;
     }
 
+    public static QuestionAndAnswers CheckCorrectAnswerIndex( string rawIndexes, QuestionAndAnswers question, out bool isAnswerIndexCorrect )
+    {
+        string[] indexArray = rawIndexes.Split(Constants.SEPARATOR,
+            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        List<int> indexList = new List<int>();
+        foreach (var stringIndex in indexArray)
+        {
+            if (!Int32.TryParse(stringIndex, out int localIndex))
+            {
+                continue;
+            }
+            if (localIndex >= 0 && localIndex < question.AnswersList.Count())
+            {
+                indexList.Add(localIndex);
+            }
+        }
+       
+        isAnswerIndexCorrect = false;
+        if (indexList.Count != 0)
+        {
+            question.CorrectAnswersIndex = indexList;
+            isAnswerIndexCorrect = true;
+        }
+        return question;
+    }
+    
+
+    
     public static void QuestionPreview(QuestionAndAnswers question,bool isGameOn =true)
     {
         DisplayUI($"Question : \n{question.Question}");
         DisplayUI($"Answers :");
         for (int i = 0; i < question.AnswersList.Count; i++)
         {
-            DisplayUI($"{( isGameOn ? $"{i.ToString()} - " : "" )}{question.AnswersList[i]} {(question.CorrectAnswersIndex.Contains(i) && !isGameOn ? "(correct)" : "")} ");
+            DisplayUI(
+                $"{i.ToString()} - {question.AnswersList[i]} {(question.CorrectAnswersIndex.Contains(i) && !isGameOn ? "(correct)" : "")}");
         }
     }
 
     public static int AskQuestionGetAnswer(QuestionAndAnswers question)
     {
-       
         do
         {
             QuestionPreview(question);
@@ -153,8 +144,8 @@ public class UIMethods
                 DisplayUI("Your selection is not correct.\n");
                 continue;
             }
+
             return answer;
         } while (true);
-        
     }
 }

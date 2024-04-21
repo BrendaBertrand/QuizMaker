@@ -15,6 +15,7 @@ public class Constants
     public const string ADD_FALSE_ANSWER_TEXT = "Add a false answer";
     public const string STOP_ADDING_ANSWER_TEXT = "Stop adding answer";
     public const string QUIT_GAME_TEXT = "Quit the game";
+    public const string SEPARATOR = ",";
 
     public const int MIN_ANSWER_COUNT = 3;
     public const int MAX_ANSWER_COUNT = 4;

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfQuestionAndAnswers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <QuestionAndAnswers>
+    <Question>What's the season that comes after spring ?</Question>
+    <AnswersList>
+      <string>Winter</string>
+      <string>Summer</string>
+      <string>Autumn</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>1</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+  <QuestionAndAnswers>
+    <Question>What's the color of the sky ?</Question>
+    <AnswersList>
+      <string>Green</string>
+      <string>Yellow</string>
+      <string>Blue</string>
+      <string>Black</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>2</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+  <QuestionAndAnswers>
+    <Question>Who is Nala in the Lion King movie ? </Question>
+    <AnswersList>
+      <string>A dog</string>
+      <string>Simba's lover</string>
+      <string>A lion</string>
+      <string>A bird</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>1</int>
+      <int>2</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+  <QuestionAndAnswers>
+    <Question>What's the color of the grass ?</Question>
+    <AnswersList>
+      <string>Green</string>
+      <string>Blue</string>
+      <string>White</string>
+      <string>Red</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>0</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+  <QuestionAndAnswers>
+    <Question>Who is the best friend of the humans ? </Question>
+    <AnswersList>
+      <string>The dog</string>
+      <string>The dolphin</string>
+      <string>The cat</string>
+      <string>The horse</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>0</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+  <QuestionAndAnswers>
+    <Question>What's the first month of the year ?</Question>
+    <AnswersList>
+      <string>January</string>
+      <string>February</string>
+      <string>March</string>
+      <string>April</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>0</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+  <QuestionAndAnswers>
+    <Question>When does the summer start ? </Question>
+    <AnswersList>
+      <string>January</string>
+      <string>June</string>
+      <string>August</string>
+      <string>September</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>1</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+  <QuestionAndAnswers>
+    <Question>When does the winter start ?</Question>
+    <AnswersList>
+      <string>March</string>
+      <string>May</string>
+      <string>October</string>
+      <string>December</string>
+    </AnswersList>
+    <CorrectAnswersIndex>
+      <int>3</int>
+    </CorrectAnswersIndex>
+  </QuestionAndAnswers>
+</ArrayOfQuestionAndAnswers>

@@ -20,7 +20,9 @@ class Program
                     questionsList.Add(UIMethods.AddQuestion());
                     DataMethods.Serialization(questionsList);
                     UIMethods.ClearUI();
-                    UIMethods.DisplayUI("The question has been added to the database.");
+                    bool isGameOn = false;
+                    UIMethods.QuestionPreview(questionsList.Last(), isGameOn);
+                    UIMethods.DisplayUI("The question has been added to the database.\n");
                     break;
                 case Constants.PLAY_GAME_CHOICE:
                     int score = 0;
