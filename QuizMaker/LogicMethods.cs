@@ -5,7 +5,7 @@ public class LogicMethods
 {
     static readonly Random rng = new Random();
 
-    public static List<int> QuestionSelection(List<QuestionAndAnswers> questionsList, List<int> questionsAsked,
+    public static List<int> PickQuestion(List<QuestionAndAnswers> questionsList, List<int> questionsAsked,
         out QuestionAndAnswers question)
     {
         do

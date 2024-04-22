@@ -21,7 +21,7 @@ class Program
                     DataMethods.SaveToFile(questionsList);
                     UIMethods.ClearUI();
                     bool isGameOn = false;
-                    UIMethods.QuestionPreview(questionsList.Last(), isGameOn);
+                    UIMethods.DisplayQuestion(questionsList.Last(), isGameOn);
                     UIMethods.DisplayUI("The question has been added to the database.\n");
                     break;
                 case Constants.PLAY_GAME_CHOICE:
@@ -30,7 +30,7 @@ class Program
                     UIMethods.ClearUI();
                     do
                     {
-                        questionsAsked = LogicMethods.QuestionSelection(questionsList, questionsAsked,
+                        questionsAsked = LogicMethods.PickQuestion(questionsList, questionsAsked,
                             out QuestionAndAnswers question);
 
                         int answer = UIMethods.AskQuestionGetAnswer(question);

@@ -83,7 +83,7 @@ public class UIMethods
         ClearUI();
         do
         {
-            QuestionPreview(question);
+            DisplayQuestion(question);
             DisplayUI($"\nType the correct answer(s) index(es) separated by a {Constants.SEPARATOR}.");
             string rawCorrectAnswerIndex = GetString();
             question = CheckCorrectAnswerIndex(rawCorrectAnswerIndex, question, out isAnswerIndexCorrect);
@@ -125,7 +125,7 @@ public class UIMethods
     
 
     
-    public static void QuestionPreview(QuestionAndAnswers question,bool isGameOn =true)
+    public static void DisplayQuestion(QuestionAndAnswers question,bool isGameOn =true)
     {
         DisplayUI($"Question : \n{question.Question}");
         DisplayUI($"Answers :");
@@ -140,7 +140,7 @@ public class UIMethods
     {
         do
         {
-            QuestionPreview(question);
+            DisplayQuestion(question);
             DisplayUI("What's your answer ?");
             bool isParseSuccess = Int32.TryParse(UIMethods.GetChar().ToString(), out int answer);
             if (!isParseSuccess || answer < 0 || answer >= question.AnswersList.Count)
