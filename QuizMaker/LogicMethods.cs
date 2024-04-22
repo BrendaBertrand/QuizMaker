@@ -1,11 +1,13 @@
 namespace QuizMaker;
 
 public class LogicMethods
+
 {
+    static readonly Random rng = new Random();
+
     public static List<int> QuestionSelection(List<QuestionAndAnswers> questionsList, List<int> questionsAsked,
         out QuestionAndAnswers question)
     {
-        Random rng = new Random();
         do
         {
             int questionIndex = rng.Next(questionsList.Count);
@@ -18,7 +20,7 @@ public class LogicMethods
         } while (true);
     }
 
-    public static int CheckAnswer(QuestionAndAnswers question,int score, int answer, int numberQuestionsAsked)
+    public static int CheckAnswer(QuestionAndAnswers question, int score, int answer, int numberQuestionsAsked)
     {
         UIMethods.ClearUI();
         if (question.CorrectAnswersIndex.Contains(answer))
@@ -38,7 +40,7 @@ public class LogicMethods
     public static bool CheckAnswersQuantity(string rawAnwsers, out List<string> answersList)
     {
         answersList = rawAnwsers.Split(Constants.SEPARATOR, StringSplitOptions.TrimEntries).ToList();
-        if (answersList.Count<Constants.MIN_ANSWER_COUNT || answersList.Count>Constants.MAX_ANSWER_COUNT )
+        if (answersList.Count < Constants.MIN_ANSWER_COUNT || answersList.Count > Constants.MAX_ANSWER_COUNT)
         {
             UIMethods.DisplayUI("The amount of answers is not correct\n");
             return false;
