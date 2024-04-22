@@ -69,6 +69,10 @@ public class UIMethods
                 $"There should be minimum {Constants.MIN_ANSWER_COUNT} answers and maximum {Constants.MAX_ANSWER_COUNT}.");
             string rawAnswers = GetString();
             isAnswerQuantityOk = LogicMethods.CheckAnswersQuantity(rawAnswers, out answersList);
+            if (!isAnswerQuantityOk)
+            {
+                DisplayUI("The amount of answers is not correct\n");
+            }
         } while (!isAnswerQuantityOk);
 
         question.AnswersList = answersList;
@@ -86,7 +90,7 @@ public class UIMethods
             DisplayQuestion(question);
             DisplayUI($"\nType the correct answer(s) index(es) separated by a {Constants.SEPARATOR}.");
             string rawCorrectAnswerIndex = GetString();
-            question = CheckCorrectAnswerIndex(rawCorrectAnswerIndex, question, out isAnswerIndexCorrect);
+            question = LogicMethods.CheckCorrectAnswerIndex(rawCorrectAnswerIndex, question, out isAnswerIndexCorrect);
             if (!isAnswerIndexCorrect)
             {
                 ClearUI();
@@ -97,32 +101,7 @@ public class UIMethods
         return question;
     }
 
-    public static QuestionAndAnswers CheckCorrectAnswerIndex( string rawIndexes, QuestionAndAnswers question, out bool isAnswerIndexCorrect )
-    {
-        string[] indexArray = rawIndexes.Split(Constants.SEPARATOR,
-            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        List<int> indexList = new List<int>();
-        foreach (var stringIndex in indexArray)
-        {
-            if (!Int32.TryParse(stringIndex, out int localIndex))
-            {
-                continue;
-            }
-            if (localIndex >= 0 && localIndex < question.AnswersList.Count())
-            {
-                indexList.Add(localIndex);
-            }
-        }
-       
-        isAnswerIndexCorrect = false;
-        if (indexList.Count != 0)
-        {
-            question.CorrectAnswersIndex = indexList;
-            isAnswerIndexCorrect = true;
-        }
-        return question;
-    }
-    
+   
 
     
     public static void DisplayQuestion(QuestionAndAnswers question,bool isGameOn =true)
@@ -152,5 +131,22 @@ public class UIMethods
 
             return answer;
         } while (true);
+    }
+    
+    public static int DisplayCorrection(QuestionAndAnswers question, int score, int answer, int numberQuestionsAsked)
+    {
+        ClearUI();
+        if (question.CorrectAnswersIndex.Contains(answer))
+        {
+            score++;
+            DisplayUI("Your answer is correct!");
+        }
+        else
+        {
+            DisplayUI("Wrong answer");
+        }
+
+        DisplayUI($"Your score is {score}/{numberQuestionsAsked}.\n");
+        return score;
     }
 }

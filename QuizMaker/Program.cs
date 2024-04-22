@@ -35,7 +35,7 @@ class Program
 
                         int answer = UIMethods.AskQuestionGetAnswer(question);
 
-                        score = LogicMethods.CheckAnswer(question, score, answer, questionsAsked.Count);
+                        score = UIMethods.DisplayCorrection(question, score, answer, questionsAsked.Count);
                     } while (questionsAsked.Count < Constants.NUMBER_OF_QUESTIONS_BY_GAME);
 
                     UIMethods.DisplayUI("This is the end of the game.\n");

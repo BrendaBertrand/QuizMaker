@@ -17,11 +17,19 @@ public class DataMethods
     public static List<QuestionAndAnswers> ReadFromFile()
     {
         List<QuestionAndAnswers> questionsList = new List<QuestionAndAnswers>();
-        using (FileStream file = File.OpenRead(Constants.PATH_XML))
+        try
         {
-            questionsList = serializer.Deserialize(file) as List<QuestionAndAnswers>;
+            using (FileStream file = File.OpenRead(Constants.PATH_XML))
+            {
+                questionsList = serializer.Deserialize(file) as List<QuestionAndAnswers>;
+            }
         }
-
+        catch (InvalidOperationException e)
+        {
+            UIMethods.DisplayUI(e.Message);
+            UIMethods.DisplayUI("There was a problem during the opening of the file.\n");
+            
+        }
         return questionsList;
     }
 
@@ -31,7 +39,8 @@ public class DataMethods
         {
             return true;
         }
-
         return false;
     }
+    
+    
 }

@@ -20,29 +20,41 @@ public class LogicMethods
         } while (true);
     }
 
-    public static int CheckAnswer(QuestionAndAnswers question, int score, int answer, int numberQuestionsAsked)
+    public static QuestionAndAnswers CheckCorrectAnswerIndex(string rawIndexes, QuestionAndAnswers question,
+        out bool isAnswerIndexCorrect)
     {
-        UIMethods.ClearUI();
-        if (question.CorrectAnswersIndex.Contains(answer))
+        string[] indexArray = rawIndexes.Split(Constants.SEPARATOR,
+            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        List<int> indexList = new List<int>();
+        foreach (var stringIndex in indexArray)
         {
-            score++;
-            UIMethods.DisplayUI("Your answer is correct!");
-        }
-        else
-        {
-            UIMethods.DisplayUI("Wrong answer");
+            if (!Int32.TryParse(stringIndex, out int localIndex))
+            {
+                continue;
+            }
+
+            if (localIndex >= 0 && localIndex < question.AnswersList.Count())
+            {
+                indexList.Add(localIndex);
+            }
         }
 
-        UIMethods.DisplayUI($"Your score is {score}/{numberQuestionsAsked}.\n");
-        return score;
+        isAnswerIndexCorrect = false;
+        if (indexList.Count != 0)
+        {
+            question.CorrectAnswersIndex = indexList;
+            isAnswerIndexCorrect = true;
+        }
+
+        return question;
     }
+
 
     public static bool CheckAnswersQuantity(string rawAnwsers, out List<string> answersList)
     {
         answersList = rawAnwsers.Split(Constants.SEPARATOR, StringSplitOptions.TrimEntries).ToList();
         if (answersList.Count < Constants.MIN_ANSWER_COUNT || answersList.Count > Constants.MAX_ANSWER_COUNT)
         {
-            UIMethods.DisplayUI("The amount of answers is not correct\n");
             return false;
         }
 
