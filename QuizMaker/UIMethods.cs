@@ -29,14 +29,19 @@ public class UIMethods
         do
         {
             DisplayUI("What do you want to do ?");
+            bool isFileAvailable = DataMethods.CheckFileExistence();
             foreach (char key in Constants.GLOBAL_MENU_CHOICES.Keys)
             {
+                if (key == Constants.PLAY_GAME_CHOICE && !isFileAvailable)
+                {
+                    continue;
+                }
                 DisplayUI($"{key} - {Constants.GLOBAL_MENU_CHOICES[key]}");
             }
 
             userMenuChoice = GetChar();
             ClearUI();
-            if (!Constants.GLOBAL_MENU_CHOICES.ContainsKey(userMenuChoice))
+            if (!Constants.GLOBAL_MENU_CHOICES.ContainsKey(userMenuChoice) || (userMenuChoice == Constants.PLAY_GAME_CHOICE && !isFileAvailable))
             {
                 DisplayUI($"{userMenuChoice} is not a correct selection.\n");
             }
