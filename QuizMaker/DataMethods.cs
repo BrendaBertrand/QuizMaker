@@ -4,18 +4,16 @@ namespace QuizMaker;
 
 public class DataMethods
 {
-    public static void Serialization(List<QuestionAndAnswers> questionsList)
+    static readonly XmlSerializer serializer = new XmlSerializer(typeof(List<QuestionAndAnswers>));
+    public static void SaveToFile(List<QuestionAndAnswers> questionsList)
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(List<QuestionAndAnswers>));
         using (FileStream file = File.Create(Constants.PATH_XML) )
         {
             serializer.Serialize(file, questionsList);
         }
     }
-    public static List<QuestionAndAnswers> Deserialization()
+    public static List<QuestionAndAnswers> ReadFromFile()
     {
-        
-        XmlSerializer serializer = new XmlSerializer(typeof(List<QuestionAndAnswers>));
         List<QuestionAndAnswers> questionsList = new List<QuestionAndAnswers>();
         try
         {
@@ -27,8 +25,18 @@ public class DataMethods
         }
         catch (Exception e)
         {
-            
+            UIMethods.DisplayUI("There is no file available to load the questions from.\n");
         }
         return questionsList;
+    }
+
+    public static bool CheckFileExistence()
+    {
+        if (File.Exists(Constants.PATH_XML))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

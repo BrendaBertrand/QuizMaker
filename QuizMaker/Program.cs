@@ -5,10 +5,10 @@ class Program
     static void Main(string[] args)
     {
         UIMethods.DisplayUI("Welcome to our Quiz Maker!\n");
-        List<QuestionAndAnswers> questionsList = DataMethods.Deserialization();
+        List<QuestionAndAnswers> questionsList = DataMethods.ReadFromFile();
         do
         {
-            char userMenuChoice = UIMethods.Menu();
+            char userMenuChoice = UIMethods.DisplayMenu();
             if (userMenuChoice == Constants.QUIT_GAME_CHOICE)
             {
                 break;
@@ -18,7 +18,7 @@ class Program
             {
                 case Constants.ADD_QUESTION_CHOICE:
                     questionsList.Add(UIMethods.AddQuestion());
-                    DataMethods.Serialization(questionsList);
+                    DataMethods.SaveToFile(questionsList);
                     UIMethods.ClearUI();
                     bool isGameOn = false;
                     UIMethods.QuestionPreview(questionsList.Last(), isGameOn);

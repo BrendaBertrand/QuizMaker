@@ -23,7 +23,7 @@ public class UIMethods
     }
 
 
-    public static char Menu()
+    public static char DisplayMenu()
     {
         char userMenuChoice;
         do
