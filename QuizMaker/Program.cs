@@ -5,7 +5,7 @@ class Program
     static void Main(string[] args)
     {
         UIMethods.DisplayUI("Welcome to our Quiz Maker!\n");
-        List<QuestionAndAnswers> questionsList = DataMethods.ReadFromFile();
+        List<QuestionAndAnswers> questionsList = new List<QuestionAndAnswers>();
         do
         {
             char userMenuChoice = UIMethods.DisplayMenu();
@@ -17,6 +17,14 @@ class Program
             switch (userMenuChoice)
             {
                 case Constants.ADD_QUESTION_CHOICE:
+                    if (UIMethods.UseExistingQuestionFile())
+                    {
+                        questionsList = DataMethods.ReadFromFile();
+                    }
+                    else
+                    {
+                        questionsList = new List<QuestionAndAnswers>();
+                    }
                     questionsList.Add(UIMethods.AddQuestion());
                     DataMethods.SaveToFile(questionsList);
                     UIMethods.ClearUI();
@@ -25,6 +33,7 @@ class Program
                     UIMethods.DisplayUI("The question has been added to the database.\n");
                     break;
                 case Constants.PLAY_GAME_CHOICE:
+                    questionsList = DataMethods.ReadFromFile();
                     int score = 0;
                     List<int> questionsAsked = new List<int>();
                     UIMethods.ClearUI();
@@ -36,7 +45,7 @@ class Program
                         int answer = UIMethods.AskQuestionGetAnswer(question);
 
                         score = UIMethods.DisplayCorrection(question, score, answer, questionsAsked.Count);
-                    } while (questionsAsked.Count < Constants.NUMBER_OF_QUESTIONS_BY_GAME);
+                    } while (questionsAsked.Count < Math.Min(Constants.NUMBER_OF_QUESTIONS_BY_GAME, questionsList.Count));
 
                     UIMethods.DisplayUI("This is the end of the game.\n");
                     break;

@@ -36,12 +36,14 @@ public class UIMethods
                 {
                     continue;
                 }
+
                 DisplayUI($"{key} - {Constants.GLOBAL_MENU_CHOICES[key]}");
             }
 
             userMenuChoice = GetChar();
             ClearUI();
-            if (!Constants.GLOBAL_MENU_CHOICES.ContainsKey(userMenuChoice) || (userMenuChoice == Constants.PLAY_GAME_CHOICE && !isFileAvailable))
+            if (!Constants.GLOBAL_MENU_CHOICES.ContainsKey(userMenuChoice) ||
+                (userMenuChoice == Constants.PLAY_GAME_CHOICE && !isFileAvailable))
             {
                 DisplayUI($"{userMenuChoice} is not a correct selection.\n");
             }
@@ -101,9 +103,7 @@ public class UIMethods
         return question;
     }
 
-   
 
-    
     public static void DisplayQuestion(QuestionAndAnswers question,bool isGameOn =true)
     {
         DisplayUI($"Question : \n{question.Question}");
@@ -132,7 +132,7 @@ public class UIMethods
             return answer;
         } while (true);
     }
-    
+
     public static int DisplayCorrection(QuestionAndAnswers question, int score, int answer, int numberQuestionsAsked)
     {
         ClearUI();
@@ -148,5 +148,42 @@ public class UIMethods
 
         DisplayUI($"Your score is {score}/{numberQuestionsAsked}.\n");
         return score;
+    }
+
+    public static bool UseExistingQuestionFile()
+    {
+        bool isFileAvailable = DataMethods.CheckFileExistence();
+        if (isFileAvailable)
+        {
+            char userFileChoice;
+            do
+            {
+                DisplayUI("Do you want to use the existing file or start from scratch ?");
+                foreach (var key in Constants.FILE_MENU_CHOICES.Keys)
+                {
+                    DisplayUI($"{key} - {Constants.FILE_MENU_CHOICES[key]}");
+                }
+
+                userFileChoice = GetChar();
+                ClearUI();
+                if (!Constants.FILE_MENU_CHOICES.ContainsKey(userFileChoice))
+                {
+                    DisplayUI($"{userFileChoice} is not a correct selection.\n");
+                }
+                else
+                {
+                    break;
+                }
+            } while (true);
+
+            if (userFileChoice == Constants.EXISTING_FILE_CHOICE)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
     }
 }

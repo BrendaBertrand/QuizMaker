@@ -52,7 +52,7 @@ public class LogicMethods
 
     public static bool CheckAnswersQuantity(string rawAnwsers, out List<string> answersList)
     {
-        answersList = rawAnwsers.Split(Constants.SEPARATOR, StringSplitOptions.TrimEntries).ToList();
+        answersList = rawAnwsers.Split(Constants.SEPARATOR, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToList();
         if (answersList.Count < Constants.MIN_ANSWER_COUNT || answersList.Count > Constants.MAX_ANSWER_COUNT)
         {
             return false;
